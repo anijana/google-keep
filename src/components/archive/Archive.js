@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { DataContext } from "../context/DataProvider";
 import { styled } from "@mui/material/styles";
 import {
-  ArchiveOutlined as Archive,
+  UnarchiveOutlined as Unarchive,
   DeleteOutlineOutlined as Delete,
 } from "@mui/icons-material";
 import {
@@ -22,41 +22,36 @@ const StyledCard = styled(Card)`
   border-radius: 8px;
 `;
 
-const Note = ({ note }) => {
-    const {notes, setNotes, setArchiveNotes,setDeleteNotes} = useContext(DataContext);
-    const archiveNote = (note) =>{
-       const updatedNotes = notes.filter(data => data.id !== note.id)
-       setNotes(updatedNotes);
-       setArchiveNotes(prevArr => [note, ...prevArr])
-    }
-    const deleteNote = (note) =>{
-        const updatedNotes = notes.filter(data => data.id !== note.id)
-       setNotes(updatedNotes);
-       setDeleteNotes(prevArr => [note, ...prevArr])
-    }
+const Archive = ({ note }) => {
+  const { notes, setNotes,archiveNotes, setArchiveNotes, setDeleteNotes } =
+    useContext(DataContext);
+  const UnarchiveNote = (note) => {
+    const updatedNotes = archiveNotes.filter((data) => data.id !== note.id);
+    setArchiveNotes(updatedNotes);
+    setNotes((prevArr) => [note, ...prevArr]);
+  };
+  const deleteNote = (note) => {
+    const updatedNotes = archiveNotes.filter((data) => data.id !== note.id);
+    setArchiveNotes(updatedNotes);
+    setDeleteNotes((prevArr) => [note, ...prevArr]);
+  };
   return (
-        <StyledCard>
-        <CardContent>
-            <Typography>{note.heading}</Typography>
-            <Typography>{note.text}</Typography>
-        </CardContent>
-        <CardActions>
-            <Archive 
-            fontSize="small" 
-            style={{ marginLeft: "auto" }}
-            onClick ={() => archiveNote(note)}
-            />
-            <Delete 
-            fontSize="small"
-            onClick ={() => deleteNote(note)} 
-            />
-            <Color fontSize="small" />
-            <Photo fontSize="small" />
-            <Person fontSize="small" />
-            <Add fontSize="small" />
-        </CardActions>
-        </StyledCard>
+    <StyledCard>
+      <CardContent>
+        <Typography>{note.heading}</Typography>
+        <Typography>{note.text}</Typography>
+      </CardContent>
+      <CardActions>
+        <Unarchive
+          fontSize="small"
+          style={{ marginLeft: "auto" }}
+          onClick={() => UnarchiveNote(note)}
+        />
+        <Delete fontSize="small" onClick={() => deleteNote(note)} />
+        
+      </CardActions>
+    </StyledCard>
   );
 };
 
-export default Note;
+export default Archive;

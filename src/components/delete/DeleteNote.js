@@ -4,15 +4,10 @@ import { useContext } from "react";
 import { DataContext } from "../context/DataProvider";
 import { styled } from "@mui/material/styles";
 import {
-  ArchiveOutlined as Archive,
-  DeleteOutlineOutlined as Delete,
+  RestoreFromTrashOutlined as Restore,
+  DeleteForeverOutlined as Delete,
 } from "@mui/icons-material";
-import {
-  ColorLensOutlined as Color,
-  PhotoOutlined as Photo,
-  PersonAddAltOutlined as Person,
-  AddAlertOutlined as Add,
-} from "@mui/icons-material";
+
 
 const StyledCard = styled(Card)`
   width: 240px;
@@ -22,17 +17,17 @@ const StyledCard = styled(Card)`
   border-radius: 8px;
 `;
 
-const Note = ({ note }) => {
-    const {notes, setNotes, setArchiveNotes,setDeleteNotes} = useContext(DataContext);
-    const archiveNote = (note) =>{
-       const updatedNotes = notes.filter(data => data.id !== note.id)
-       setNotes(updatedNotes);
-       setArchiveNotes(prevArr => [note, ...prevArr])
+const DeleteNote = ({ note }) => {
+    const {notes, setNotes, setArchiveNotes,deletedNotes, setDeletedNotes} = useContext(DataContext);
+    const restoreNote = (note) =>{
+       const updatedNotes = deletedNotes.filter(data => data.id !== note.id)
+       setDeletedNotes(updatedNotes);
+       setNotes(prevArr => [note, ...prevArr])
     }
     const deleteNote = (note) =>{
         const updatedNotes = notes.filter(data => data.id !== note.id)
-       setNotes(updatedNotes);
-       setDeleteNotes(prevArr => [note, ...prevArr])
+        setDeletedNotes(updatedNotes);
+       
     }
   return (
         <StyledCard>
@@ -41,22 +36,22 @@ const Note = ({ note }) => {
             <Typography>{note.text}</Typography>
         </CardContent>
         <CardActions>
-            <Archive 
-            fontSize="small" 
-            style={{ marginLeft: "auto" }}
-            onClick ={() => archiveNote(note)}
-            />
-            <Delete 
+
+        <Delete 
             fontSize="small"
+            style={{ marginLeft: "auto" }}
             onClick ={() => deleteNote(note)} 
             />
-            <Color fontSize="small" />
-            <Photo fontSize="small" />
-            <Person fontSize="small" />
-            <Add fontSize="small" />
+
+            <Restore 
+            fontSize="small" 
+            onClick ={() => restoreNote(note)}
+            />
+            
+            
         </CardActions>
         </StyledCard>
   );
 };
 
-export default Note;
+export default DeleteNote;

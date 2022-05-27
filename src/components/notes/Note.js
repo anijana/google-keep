@@ -7,12 +7,6 @@ import {
   ArchiveOutlined as Archive,
   DeleteOutlineOutlined as Delete,
 } from "@mui/icons-material";
-import {
-  ColorLensOutlined as Color,
-  PhotoOutlined as Photo,
-  PersonAddAltOutlined as Person,
-  AddAlertOutlined as Add,
-} from "@mui/icons-material";
 
 const StyledCard = styled(Card)`
   width: 240px;
@@ -23,7 +17,7 @@ const StyledCard = styled(Card)`
 `;
 
 const Note = ({ note }) => {
-    const {notes, setNotes, setArchiveNotes,setDeleteNotes} = useContext(DataContext);
+    const {notes, setNotes, setArchiveNotes,setDeletedNotes} = useContext(DataContext);
     const archiveNote = (note) =>{
        const updatedNotes = notes.filter(data => data.id !== note.id)
        setNotes(updatedNotes);
@@ -32,13 +26,9 @@ const Note = ({ note }) => {
     const deleteNote = (note) =>{
         const updatedNotes = notes.filter(data => data.id !== note.id)
        setNotes(updatedNotes);
-       setDeleteNotes(prevArr => [note, ...prevArr])
+       setDeletedNotes(prevArr => [note, ...prevArr])
     }
-    const colorNote =() =>{
-        return (
-            
-        )
-    }
+    
   return (
         <StyledCard>
         <CardContent>
@@ -55,10 +45,6 @@ const Note = ({ note }) => {
             fontSize="small"
             onClick ={() => deleteNote(note)} 
             />
-            <Color fontSize="small" onClick ={() => colorNote(note)} />
-            <Photo fontSize="small" />
-            <Person fontSize="small" />
-            <Add fontSize="small" />
         </CardActions>
         </StyledCard>
   );
